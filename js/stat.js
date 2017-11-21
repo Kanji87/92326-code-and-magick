@@ -13,7 +13,7 @@ window.renderStatistics = function (ctx, names, times) {
   // функция считает вычисляет значение в массиве
   var getMaxValFromArr = function (arr) {
     var maxVal = arr[0];
-    for (var i = 1; i < arr.length - 1; i++) {
+    for (var i = 1; i < arr.length; i++) {
       if (maxVal < arr[i]) {
         maxVal = arr[i];
       }
