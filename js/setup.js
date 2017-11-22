@@ -1,5 +1,4 @@
 'use strict';
-document.querySelector('.setup').classList.remove('hidden');
 
 var firstNames = [
   'Иван',
@@ -49,8 +48,6 @@ var getRandomArrIndex = function (arr) {
 };
 
 var renderName = function (isRandom) {
-  // var firstName = firstNames[getRandomInt(0, firstNames.length - 1)];
-  // var lastName = lastNames[getRandomInt(0, lastNames.length - 1)];
   var firstName = getRandomArrIndex(firstNames);
   var lastName = getRandomArrIndex(lastNames);
   var name = firstName + ' ' + lastName;
@@ -74,13 +71,36 @@ var wizards = [
     eyesColor: getRandomArrIndex(eyesColors)
   },
   {
-    name: renderName(),
+    name: renderName(true),
     coatColor: getRandomArrIndex(coatColors),
     eyesColor: getRandomArrIndex(eyesColors)
   },
   {
-    name: renderName(),
+    name: renderName(true),
     coatColor: getRandomArrIndex(coatColors),
     eyesColor: getRandomArrIndex(eyesColors)
   }
 ];
+
+var createWizardDomEl = function (obj, template) {
+  var domItem = template.cloneNode(true);
+  domItem.querySelector('.setup-similar-label').textContent = obj.name;
+  domItem.querySelector('.wizard-coat').style.fill = obj.coatColor;
+  domItem.querySelector('.wizard-eyes').style.fill = obj.eyesColor;
+
+  return domItem;
+};
+
+var renderWizardList = function (renderArr, renderContainer, renderTemplate) {
+  for (var i = 0; i < renderArr.length; i++) {
+    renderContainer.appendChild(createWizardDomEl(renderArr[i], renderTemplate));
+  }
+};
+
+var wizardTemplate = document.querySelector('#similar-wizard-template').content;
+var wizardsList = document.querySelector('.setup-similar-list');
+
+renderWizardList(wizards, wizardsList, wizardTemplate);
+
+document.querySelector('.setup').classList.remove('hidden');
+document.querySelector('.setup-similar').classList.remove('hidden');
