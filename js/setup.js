@@ -47,40 +47,24 @@ var getRandomArrIndex = function (arr) {
   return arr[getRandomInt(0, arr.length - 1)];
 };
 
-var renderName = function (isRandom) {
+var renderName = function () {
   var firstName = getRandomArrIndex(firstNames);
   var lastName = getRandomArrIndex(lastNames);
-  var name = firstName + ' ' + lastName;
-  if (isRandom === true) {
-    if (getRandomInt(0, 1)) {
-      name = lastName + ' ' + firstName;
-    }
-  }
-  return name;
+
+  return getRandomInt(0, 1) ? (firstName + ' ' + lastName) : (lastName + ' ' + firstName);
 };
 
-var wizards = [
-  {
-    name: renderName(),
-    coatColor: getRandomArrIndex(coatColors),
-    eyesColor: getRandomArrIndex(eyesColors)
-  },
-  {
-    name: renderName(),
-    coatColor: getRandomArrIndex(coatColors),
-    eyesColor: getRandomArrIndex(eyesColors)
-  },
-  {
-    name: renderName(true),
-    coatColor: getRandomArrIndex(coatColors),
-    eyesColor: getRandomArrIndex(eyesColors)
-  },
-  {
-    name: renderName(true),
-    coatColor: getRandomArrIndex(coatColors),
-    eyesColor: getRandomArrIndex(eyesColors)
+var createWizardsArr = function (itemsCount) {
+  var wizardsArr = [];
+  for (var i = 0; i < itemsCount; i++) {
+    wizardsArr[i] = {
+      name: renderName(),
+      coatColor: getRandomArrIndex(coatColors),
+      eyesColor: getRandomArrIndex(eyesColors)
+    };
   }
-];
+  return wizardsArr;
+};
 
 var createWizardDomEl = function (obj, template) {
   var domItem = template.cloneNode(true);
@@ -91,16 +75,20 @@ var createWizardDomEl = function (obj, template) {
   return domItem;
 };
 
-var renderWizardList = function (renderArr, renderContainer, renderTemplate) {
+var renderWizardList = function (renderArr, renderTemplate, fragmentName) {
   for (var i = 0; i < renderArr.length; i++) {
-    renderContainer.appendChild(createWizardDomEl(renderArr[i], renderTemplate));
+    fragmentName.appendChild(createWizardDomEl(renderArr[i], renderTemplate));
   }
 };
 
+var domFragment = document.createDocumentFragment();
+var wizards = createWizardsArr(4);
 var wizardTemplate = document.querySelector('#similar-wizard-template').content;
 var wizardsList = document.querySelector('.setup-similar-list');
 
-renderWizardList(wizards, wizardsList, wizardTemplate);
+renderWizardList(wizards, wizardTemplate, domFragment);
+
+wizardsList.appendChild(domFragment);
 
 document.querySelector('.setup').classList.remove('hidden');
 document.querySelector('.setup-similar').classList.remove('hidden');
