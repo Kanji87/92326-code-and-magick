@@ -90,23 +90,51 @@ renderWizardList(wizards, wizardTemplate, domFragment);
 
 wizardsList.appendChild(domFragment);
 
-document.querySelector('.setup').classList.remove('hidden');
+// document.querySelector('.setup').classList.remove('hidden');
 document.querySelector('.setup-similar').classList.remove('hidden');
 
 var ESC_BUTTON = 27;
 var ENTER_BUTTON = 13;
 
 var setupBlock = document.querySelector('.setup');
-var setupOpenTarget = setupBlock.querySelector('.setup-open-icon');
+var setupOpenTarget = document.querySelector('.setup-open');
 var setupCloseTarget = setupBlock.querySelector('.setup-close');
+var setupSaveTarget = setupBlock.querySelector('.setup-submit');
 
 var openSetup = function () {
   setupBlock.classList.remove('hidden');
+  document.addEventListener('keydown', closeSetupOnEsc);
 };
 
-var closeSetup = function () {
+var closeSetup = function (e) {
+  e.preventDefault();
   setupBlock.classList.add('hidden');
+  document.removeEventListener('keydown', closeSetupOnEsc);
+};
+
+var closeSetupOnEnter = function (e) {
+  if (e.keyCode === ENTER_BUTTON) {
+    e.preventDefault();
+    setupBlock.classList.add('hidden');
+  }
+};
+
+var closeSetupOnEsc = function (e) {
+  if (e.keyCode === ESC_BUTTON && e.target.className !== 'setup-user-name') {
+    setupBlock.classList.add('hidden');
+  }
+};
+
+var openSetupOnEnter = function (e) {
+  if (e.keyCode === ENTER_BUTTON) {
+    setupBlock.classList.remove('hidden');
+  }
 };
 
 setupOpenTarget.addEventListener('click', openSetup);
+setupOpenTarget.addEventListener('keydown', openSetupOnEnter);
+
 setupCloseTarget.addEventListener('click', closeSetup);
+
+setupSaveTarget.addEventListener('click', closeSetup);
+setupSaveTarget.addEventListener('keydown', closeSetupOnEnter);
