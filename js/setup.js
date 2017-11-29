@@ -100,35 +100,61 @@ var setupBlock = document.querySelector('.setup');
 var setupOpenTarget = document.querySelector('.setup-open');
 var setupCloseTarget = setupBlock.querySelector('.setup-close');
 var setupSaveTarget = setupBlock.querySelector('.setup-submit');
+var wizardCoatTarget = setupBlock.querySelector('.wizard-coat');
+var wizardEyesTarget = setupBlock.querySelector('.wizard-eyes');
+var wizardFireballTarget = setupBlock.querySelector('.setup-fireball-wrap');
+var fireballColors = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
 
 var openSetup = function () {
   setupBlock.classList.remove('hidden');
   document.addEventListener('keydown', closeSetupOnEsc);
+  wizardCoatTarget.addEventListener('click', changeCoatColor);
+  wizardEyesTarget.addEventListener('click', changeEyesColor);
+  wizardFireballTarget.addEventListener('click', changeFireballColor);
 };
 
-var closeSetup = function (e) {
-  e.preventDefault();
+var closeSetup = function () {
   setupBlock.classList.add('hidden');
   document.removeEventListener('keydown', closeSetupOnEsc);
+  wizardCoatTarget.removeEventListener('click', changeCoatColor);
+  wizardEyesTarget.removeEventListener('click', changeEyesColor);
+  wizardFireballTarget.removeEventListener('click', changeFireballColor);
 };
 
 var closeSetupOnEnter = function (e) {
   if (e.keyCode === ENTER_BUTTON) {
-    e.preventDefault();
-    setupBlock.classList.add('hidden');
+    closeSetup();
   }
 };
 
 var closeSetupOnEsc = function (e) {
   if (e.keyCode === ESC_BUTTON && e.target.className !== 'setup-user-name') {
-    setupBlock.classList.add('hidden');
+    closeSetup();
   }
 };
 
 var openSetupOnEnter = function (e) {
   if (e.keyCode === ENTER_BUTTON) {
-    setupBlock.classList.remove('hidden');
+    openSetup();
   }
+};
+
+var changeCoatColor = function () {
+  wizardCoatTarget.style.fill = getRandomArrIndex(coatColors);
+};
+
+var changeEyesColor = function () {
+  wizardEyesTarget.style.fill = getRandomArrIndex(eyesColors);
+};
+
+var changeFireballColor = function () {
+  wizardFireballTarget.style.background = getRandomArrIndex(fireballColors);
 };
 
 setupOpenTarget.addEventListener('click', openSetup);
