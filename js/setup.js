@@ -92,3 +92,21 @@ wizardsList.appendChild(domFragment);
 
 document.querySelector('.setup').classList.remove('hidden');
 document.querySelector('.setup-similar').classList.remove('hidden');
+
+var ESC_BUTTON = 27;
+var ENTER_BUTTON = 13;
+
+var setupBlock = document.querySelector('.setup');
+var setupOpenTarget = setupBlock.querySelector('.setup-open-icon');
+var setupCloseTarget = setupBlock.querySelector('.setup-close');
+
+var openSetup = function () {
+  setupBlock.classList.remove('hidden');
+};
+
+var closeSetup = function () {
+  setupBlock.classList.add('hidden');
+};
+
+setupOpenTarget.addEventListener('click', openSetup);
+setupCloseTarget.addEventListener('click', closeSetup);
